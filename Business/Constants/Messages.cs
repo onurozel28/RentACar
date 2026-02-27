@@ -36,12 +36,7 @@ namespace Business.Constants
         public static string RentalUpdated = "Kiralama işlemi güncellendi";
         public static string CheckReturnDate = "Araç geri dönüş tarihini kontrol ediniz !";
         public static string CarNameInvalid = "Araç ismi geçersiz";
-       
 
-
-         
-                 
-        
-
+        public static string CarNameAlreadyExist = "Hali hazırda bu isimde bir araç mevcut";
     }
 }

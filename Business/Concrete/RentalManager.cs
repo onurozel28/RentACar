@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilites.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class RentalManager : IRentalService  
+    public class RentalManager : IRentalService
     {
         private IRentalDal _rentalDal;
 
@@ -20,7 +22,6 @@ namespace Business.Concrete
         {
             _rentalDal = rentalDal;
         }
-
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
@@ -29,15 +30,14 @@ namespace Business.Concrete
 
         public IResult CheckReturnDate(int carId)
         {
-            var result=_rentalDal.GetAll(r => r.CarId == carId && r.ReturnDate == null);
-            if(result!=null)
+            var result = _rentalDal.GetAll(x => x.CarId == carId);
+            if (result.Count > 0 && result.Count(x => x.ReturnDate == null) > 0)
             {
                 return new ErrorResult(Messages.CheckReturnDate);
             }
-            else
-            {
-                return new SuccessResult(Messages.CarAvailable);
-            }
+
+            return new SuccessResult(Messages.CarAvailable);
+
         }
 
         public IResult Delete(Rental rental)
@@ -64,16 +64,14 @@ namespace Business.Concrete
 
         public IResult UpdateReturnDate(int carId)
         {
-            var rental = _rentalDal.GetAll(r => r.CarId == carId && r.ReturnDate == null).FirstOrDefault(); //firstordefault kullanma sebebimiz şöyle: eğer kiralama yoksa null dönecek ve hata vermeyecek.
-
-            if (rental == null)
+            var result = _rentalDal.GetAll(x => x.CarId == carId);
+            var updatedRental = result.LastOrDefault();
+            if (updatedRental.ReturnDate != null)
             {
-                // aktif kiralama yok → şimdilik bir şey yapmıyoruz
-                return new SuccessResult("Aktif kiralama bulunamamaktadır!");
+                return new ErrorResult("");
             }
-
-            rental.ReturnDate = DateTime.Now;
-            _rentalDal.Update(rental);
+            updatedRental.ReturnDate = DateTime.Now;
+            _rentalDal.Update(updatedRental);
             return new SuccessResult(Messages.RentalUpdated);
         }
 
