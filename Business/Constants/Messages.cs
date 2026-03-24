@@ -38,5 +38,20 @@ namespace Business.Constants
         public static string CarNameInvalid = "Araç ismi geçersiz";
 
         public static string CarNameAlreadyExist = "Hali hazırda bu isimde bir araç mevcut";
+
+        public static string AuthorizationDenied = "yetkiniz yok ";
+        public static string UserAdded = "Kullanıcı Eklendi";
+
+        public static string UserRegistered = "Kayıt oldu";
+
+        public static string UserNotFound = "Kullanıcı bulunamadı";
+
+        public static string PasswordError = "Parola hatası";
+
+        public static string SuccessfulLogin = "Başarılı giriş yapıldı";
+
+        public static string UserAlreadyExists = "Kullanıcı mevcut";
+
+        public static string AccessTokenCreated = "Token oluşturuldu";
     }
 }
