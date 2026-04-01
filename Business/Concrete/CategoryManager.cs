@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilites.Results;
 using DataAccess.Abstract;
@@ -33,7 +34,7 @@ namespace Business.Concrete
             _categoryDal.Delete(category); 
             return new SuccessResult(Messages.CategoryDeleted);
         }
-
+        [PerformanceAspect(5)]
         public IDataResult<List<Category>> GetAll()
         {
             return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoryListed);

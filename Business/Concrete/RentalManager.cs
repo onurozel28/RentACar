@@ -53,7 +53,7 @@ namespace Business.Concrete
 
         public IDataResult<List<RentalDetailDto>> GetRentalDetailDtos(int carId)
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails().Where(r => r.CarId == carId).ToList()); //kiralama detaylarını filtrele diyoruz.
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails().Where(r => r.CarId == carId).ToList()); 
         }
 
         public IResult Update(Rental rental)

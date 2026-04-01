@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilites.Results;
 using DataAccess.Abstract;
@@ -33,7 +34,7 @@ namespace Business.Concrete
             _colorDal.Delete(color);
             return new SuccessResult(Messages.ColorDeleted);
         }
-
+        [PerformanceAspect(3)]
         public IDataResult<List<Color>> GetAll()
         {
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());

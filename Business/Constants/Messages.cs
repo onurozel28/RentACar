@@ -53,5 +53,9 @@ namespace Business.Constants
         public static string UserAlreadyExists = "Kullanıcı mevcut";
 
         public static string AccessTokenCreated = "Token oluşturuldu";
+
+        public static string CarImageLimitExcited = "Bir aracın 5 'den fazla resmi olamaz";
+
+        public static string IncorrectFileExtension = "Kabul edilmeyen dosya uzantısı";
     }
 }

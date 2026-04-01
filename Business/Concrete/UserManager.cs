@@ -25,7 +25,7 @@ namespace Business.Concrete
         {
             return _userDal.GetClaims(user);
         }
-
+        
         public IResult Add(User user)
         {
             _userDal.Add(user);

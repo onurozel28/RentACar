@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilites.Results;
 using DataAccess.Abstract;
@@ -15,7 +16,7 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        private IBrandDal _brandDal; //bağımlılığı azaltmak için interface kullandık
+        private IBrandDal _brandDal; 
 
         public BrandManager(IBrandDal brandDal)
         {
@@ -33,7 +34,7 @@ namespace Business.Concrete
             _brandDal.Delete(brand);
              return new SuccessResult(Messages.BrandDeleted);
         }
-
+        [PerformanceAspect(5)]
         public IDataResult<List<Brand>> GetAll()
         {
             return new DataResult<List<Brand>>(_brandDal.GetAll(),true);

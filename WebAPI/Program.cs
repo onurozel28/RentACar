@@ -3,6 +3,9 @@ using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
 using Business.DependencyResolvers.Autofac;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilites.IoC;
 using Core.Utilites.Security.Encryption;
 using Core.Utilites.Security.JWT;
 using DataAccess.Abstract;
@@ -16,6 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>(); 
 
@@ -33,6 +38,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
+
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+    {
+    new CoreModule()
+});
+
 //builder.Services.AddScoped<IBrandService, BrandManager>();
 //builder.Services.AddScoped<ICarService, CarManager>();
 //builder.Services.AddScoped<ICategoryService, CategoryManager>();
@@ -67,8 +78,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseAuthentication();
+
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
